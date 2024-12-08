@@ -34,12 +34,21 @@ if "user_id" not in st.session_state:
 
 def main():
     # １ページ目表示
-    # st.sidebar.title("test_streamlit")
-    # st.markdown("## ボタンでページを変えましょう")
-    # st.sidebar.button("ページ切り替えボタン", on_click=change_page)
+    st.markdown(
+    """
+    <h1 style="font-size: 38px;">プログラミング学習者支援システム</h1>
+    """,
+    unsafe_allow_html=True
+    )
 
-    st.title("プログラミング学習者支援システム")
-    st.session_state.user_id = st.text_input("**IDを入力してください**", key="login_input")
+    st.markdown(
+    """
+    <h1 style="font-size: 20px;">IDを入力してください</h1>
+    """,
+    unsafe_allow_html=True
+    )
+
+    st.session_state.user_id = st.text_input(" ", key="login_input")
     st.button("ログイン", on_click=change_page)
 
 def change_page():
@@ -48,10 +57,13 @@ def change_page():
 
 def next_page():
     # ２ページ目表示
-    # st.sidebar.title("ページが切り替わりました")
-    # st.markdown("## 次のページです")
-
-    st.title("プログラミング学習者支援システム")
+    
+    st.markdown(
+    """
+    <h1 style="font-size: 38px;">プログラミング学習者支援システム</h1>
+    """,
+    unsafe_allow_html=True
+    )
 
     st.write(f"使用中のID: {st.session_state.user_id}")
 

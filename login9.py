@@ -286,12 +286,8 @@ def next_page():
         # 文字列に変換して不正な文字を置換
         return re.sub(r'[<>:"/\\|?*\x00-\x1F]', '_', str(input_string))
 
-    # アップロードされたファイルをjdoodleでjavac
-    # if uploaded_file:
-
-    # 実行ボタン
+    # ③解説生成ボタン
     if st.sidebar.button("解説生成"):
-        # 日本のタイムゾーンを取得
         japan_timezone = pytz.timezone('Asia/Tokyo')
         japan_time = datetime.now(japan_timezone)
         japan_time_str = japan_time.strftime('%Y-%m-%d %H:%M:%S')
@@ -362,7 +358,9 @@ def next_page():
         st.session_state.down_log.append("")
         st.session_state.down_log.append("#############################################################")
         st.session_state.down_log.append("#############################################################")
-
+        
+    st.sidebar.write("＊生成に時間がかかる場合があります")
+    
     # 入力内容をテキスト形式に変換
     down_log = "\n".join(st.session_state.down_log)
     filename = safe_filename(st.session_state.user_id) + ".txt"
@@ -374,6 +372,9 @@ def next_page():
         data = down_log,
         file_name = filename
     )
+
+    st.sidebar.write("＊27個全ての解説を生成したら履歴をとってください")
+    st.sidebar.write("＊作業を一度中断する場合は、その都度履歴をとってください")
 
     # 最新のメッセージを取得
     last_user_message = None

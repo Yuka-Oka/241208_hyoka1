@@ -183,13 +183,17 @@ def next_page():
     # 関数file_jdoo：アップロードしたファイルをjavacし、関数response_generationを呼び出す
     # 引数java_code_d:ファイルの中身そのまま
     # 引数string_data_d_j:ファイルの中身string化
-    # 返り値string_data_d_j:コード＋エラー文
+    # 返り値code_line_er:コード＋エラー文
     # 返り値sys_response_d:コンパイル結果を元にした解説結果
     def file_jdoo(java_code_d, string_data_d_j):
-        print("JDoodle")
 
         # 応答履歴格納用変数
         sys_response_d = ""
+
+        # コード＋線＋エラー文
+        code_line_er = ""
+        code_line_er += string_data_d_j
+        code_line_er += "\n\n---------------------------------------------------------------\n"
 
         # JDoodle APIにリクエストを送信
         api_url = "https://api.jdoodle.com/v1/execute"
@@ -207,12 +211,11 @@ def next_page():
         if response.status_code == 200:
             result = response.json()
             output = result.get("output", "No output")
-            # st.code(output, language="text")
 
             # コンパイルエラーのチェック
             if "error" in result['output'].lower():
                 # st.write("コンパイルエラー発生！")
-                string_data_d_j += result['output']
+                code_line_er += result['output']
 
                 # gptへの入力格納用変数
                 java_code_d += result['output']
@@ -229,7 +232,7 @@ def next_page():
             st.write(f"Error: {response.status_code}")
             sys_response_d += "何らかのトラブルが発生しました"
 
-        return string_data_d_j, sys_response_d
+        return code_line_er, sys_response_d
 
     # 関数file_jdoo_dummy：アップロードしたファイルをjavacわざとしない
     # 引数java_code_d:ファイルの中身
